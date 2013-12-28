@@ -4,7 +4,7 @@
     <form action="{{ url_for('add_bill') }}" method=post class=add-bill>
 	    <dl>
 	        <dt>Date:</dt>
-	        <dd><input type=text size=30 name=date></dd>
+	        <dd><input type=text size=30 name=date id=datepicker></dd>
 	        <dt>Name:</dt>
 	        <dd><input type=text size=30 name=name></dd>
 	        <dt>Amount</dt>
@@ -31,3 +31,4 @@
     {% endfor %}
     </table>
 {% endblock %}
+
