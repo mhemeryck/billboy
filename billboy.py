@@ -1,9 +1,8 @@
 from contextlib import closing
 import sqlite3
-import yaml
 
-from sqlalchemy import create_engine
-from sqlalchemy.orm import scoped_session, sessionmaker
+# from sqlalchemy import create_engine
+# from sqlalchemy.orm import scoped_session, sessionmaker
 from flask import (Flask, request, session, g, redirect, url_for, abort,
                    render_template, flash)
 # from database.datatypes import Bill
@@ -34,7 +33,7 @@ def teardown_request(exception):
     db = getattr(g, 'db', None)
     if db is not None:
         db.close()
-    
+
 
 @app.route('/')
 def show_bills():
@@ -79,7 +78,7 @@ def logout():
     flash('You were logged out')
     return redirect(url_for('show_bills'))
     
-    
+
 if __name__ == '__main__':
     init_db()
     app.run()
