@@ -3,25 +3,31 @@
     {% if session.logged_in %}
     <form action="{{ url_for('add_bill') }}" method=post class=add-bill>
 	    <dl>
-	        <dt>Title:</dt>
-		    <dd><input type=text size=30 name=title></dd>
-		    <dt>Text:</dt>
-		    <dd><textarea name=text rows=5 cols=40></textarea></dd>
+	        <dt>Date:</dt>
+	        <dd><input type=text size=30 name=date></dd>
+	        <dt>Name:</dt>
+	        <dd><input type=text size=30 name=name></dd>
+	        <dt>Amount</dt>
+	        <dd><input type=text size=30 name=amount></dd>
+		    <dt>Paid by:</dt>
+		    <select name=paid_by>
+		        <option value="katrien">Katrien</option>
+		        <option value="martijn">Martijn</option>
+		    </select>
 		    <dd><input type=submit value=Share></dd>
 	    </dl>
     </form>
     {% endif %}
-    <table class=bills>
+    <table class=bills border=1>
     {% for bill in bills %}
         <tr>
-            <td>{{ entry.date }}</td>            
-            <td>{{ entry.name }}</td>
-            <td>{{ entry.amount }}</td>
-            <td>{{ entry.paid_by }}</td>
+            <td>{{ bill.date }}</td>            
+            <td>{{ bill.name }}</td>
+            <td>{{ bill.amount }}</td>
+            <td>{{ bill.paid_by }}</td>
         </tr>
-    {% else %}        
-    	<li><em>Unbelievable. No entries here so far</em></li>
+    {% else %}
+    	<tr><em>Unbelievable. No entries here so far</em></tr>
     {% endfor %}
     </table>
 {% endblock %}
-
