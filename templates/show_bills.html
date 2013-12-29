@@ -21,7 +21,7 @@
     <table class=bills border=1>
     {% for bill in bills %}
         <tr>
-            <td>{{ bill.date }}</td>            
+            <td>{{ bill.date|datetime }}</td>            
             <td>{{ bill.name }}</td>
             <td>{{ bill.amount }}</td>
             <td>{{ bill.paid_by }}</td>

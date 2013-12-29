@@ -1,58 +1,38 @@
-from contextlib import closing
-import sqlite3
-
-# from sqlalchemy import create_engine
-# from sqlalchemy.orm import scoped_session, sessionmaker
-from flask import (Flask, request, session, g, redirect, url_for, abort,
+from datetime import datetime
+from flask import (Flask, request, session, redirect, url_for, abort,
                    render_template, flash)
-# from database.datatypes import Bill
+from database import db, Bill
 
 
 app = Flask(__name__)
 app.config.from_pyfile('billboy.cfg')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + app.config['DATABASE']
+db.app = app
+db.init_app(app)
+db.create_all()
 
 
-def connect_db():
-    return sqlite3.connect(app.config['DATABASE'])
-
-
-def init_db():
-    with closing(connect_db()) as db:
-        with app.open_resource('schema.sql', mode='r') as fh:
-            db.cursor().executescript(fh.read())
-        db.commit()
-
-
-@app.before_request
-def before_request():
-    g.db = connect_db()
-    
-
-@app.teardown_request
-def teardown_request(exception):
-    db = getattr(g, 'db', None)
-    if db is not None:
-        db.close()
+@app.template_filter('datetime')
+def format_datetime(value):
+    return value.strftime('%Y-%m-%d') #  babel.format_datetime(value, '%Y-%m-%d')
 
 
 @app.route('/')
 def show_bills():
-    cur = g.db.execute('SELECT date, name, amount, paid_by FROM bills '
-                       'ORDER BY id DESC')
-    bills = [dict(date=date, name=name, amount=amount, paid_by=paid_by)
-             for date, name, amount, paid_by in cur.fetchall()]
-    return render_template('show_bills.html', bills=bills)
+    return render_template('show_bills.html', bills=Bill.query.all())
 
 
 @app.route('/add', methods=['POST'])
 def add_bill():
     if not session.get('logged_in'):
         abort(401)
-    g.db.execute('INSERT INTO bills (date, name, amount, paid_by)'
-                 'VALUES (?, ?, ?, ?)',
-                 [request.form[key] for key in
-                  ['date', 'name', 'amount', 'paid_by']])
-    g.db.commit()
+    bill = Bill()
+    bill.date = datetime.strptime(request.form['date'], '%Y-%m-%d')
+    bill.name = request.form['name']
+    bill.amount = request.form['amount']
+    bill.paid_by = request.form['paid_by']
+    db.session.add(bill)
+    db.session.commit()
     flash('New bill successfully entered')
     return redirect(url_for('show_bills'))
 
@@ -80,5 +60,4 @@ def logout():
     
 
 if __name__ == '__main__':
-    init_db()
     app.run()
