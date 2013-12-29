@@ -1,20 +1,38 @@
 from datetime import datetime
 from flask import (Flask, request, session, redirect, url_for, abort,
                    render_template, flash)
-from database import db, Bill
+from flask.ext.sqlalchemy import SQLAlchemy
+
+
+DATABASE = '/tmp/billboy.db'
+DEBUG = True
+SECRET_KEY = 'development key'
+USERNAME = 'admin'
+PASSWORD = 'default'
+SQLALCHEMY_DATABASE_URI = 'sqlite:///' + DATABASE
 
 
 app = Flask(__name__)
-app.config.from_pyfile('billboy.cfg')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + app.config['DATABASE']
-db.app = app
-db.init_app(app)
-db.create_all()
+app.config.from_object(__name__)
+db = SQLAlchemy(app)
+
+
+class Bill(db.Model):
+
+    """Shopping bill"""
+
+    __tablename__ = 'bills'
+
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.DateTime, default=datetime.now())
+    name = db.Column(db.String)
+    amount = db.Column(db.Float)
+    paid_by = db.Column(db.Enum('katrien', 'martijn'))
 
 
 @app.template_filter('datetime')
 def format_datetime(value):
-    return value.strftime('%Y-%m-%d') #  babel.format_datetime(value, '%Y-%m-%d')
+    return value.strftime('%Y-%m-%d')
 
 
 @app.route('/')
@@ -50,14 +68,15 @@ def login():
             flash('You were logged in')
             return redirect(url_for('show_bills'))
     return render_template('login.html', error=error)
-    
+
 
 @app.route('/logout')
 def logout():
     session.pop('logged_in', None)
     flash('You were logged out')
     return redirect(url_for('show_bills'))
-    
+
 
 if __name__ == '__main__':
+    db.create_all()
     app.run()
