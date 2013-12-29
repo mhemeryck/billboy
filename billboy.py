@@ -25,7 +25,7 @@ class Bill(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.DateTime, default=datetime.now())
-    name = db.Column(db.String)
+    description = db.Column(db.String)
     amount = db.Column(db.Float)
     paid_by = db.Column(db.Enum('katrien', 'martijn'))
 
@@ -46,7 +46,7 @@ def add_bill():
         abort(401)
     bill = Bill()
     bill.date = datetime.strptime(request.form['date'], '%Y-%m-%d')
-    bill.name = request.form['name']
+    bill.description = request.form['description']
     bill.amount = request.form['amount']
     bill.paid_by = request.form['paid_by']
     db.session.add(bill)
