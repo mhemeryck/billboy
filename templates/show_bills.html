@@ -18,16 +18,22 @@
 	    </dl>
     </form>
     {% endif %}
-    <table class=bills border=1>
-    {% for bill in bills %}
+    <table class="pure-table pure-table-horizontal">
+    <thead>
         <tr>
-            <td>{{ bill.date|datetime }}</td>            
+            <td>Date</td>
+            <td>Name</td>
+            <td>Amount</td>
+            <td>Paid by</td>
+        </tr>
+    </thead>
+    {% for bill in bills %}
+        <tr {{ loop.cycle('class=pure-table-odd', '') }}>
+            <td>{{ bill.date|datetime }}</td>
             <td>{{ bill.name }}</td>
             <td>{{ bill.amount }}</td>
             <td>{{ bill.paid_by }}</td>
         </tr>
-    {% else %}
-    	<tr><em>Unbelievable. No entries here so far</em></tr>
     {% endfor %}
     </table>
 {% endblock %}
