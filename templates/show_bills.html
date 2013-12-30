@@ -1,6 +1,60 @@
 {% extends "layout.html" %}
 {% block body %}
     {% if session.logged_in %}
+        <form class="form-horizontal">
+        <fieldset>
+
+        <!-- Form Name -->
+        <legend>Add</legend>
+
+        <!-- Text input-->
+        <div class="control-group">
+          <label class="control-label" for="datepicker">Date</label>
+          <div class="controls">
+            <input id="datepicker" name="datepicker" placeholder="date" class="input-xlarge" type="text">
+            <p class="help-block">yyyy-mm-dd</p>
+          </div>
+        </div>
+
+        <!-- Text input-->
+        <div class="control-group">
+          <label class="control-label" for="description">Description</label>
+          <div class="controls">
+            <input id="description" name="description" placeholder="description" class="input-xlarge" type="text">
+            
+          </div>
+        </div>
+
+        <!-- Text input-->
+        <div class="control-group">
+          <label class="control-label" for="amount">Amount</label>
+          <div class="controls">
+            <input id="amount" name="amount" placeholder="amount" class="input-xlarge" type="text">
+            
+          </div>
+        </div>
+
+        <!-- Select Basic -->
+        <div class="control-group">
+          <label class="control-label" for="paid_by">Paid by</label>
+          <div class="controls">
+            <select id="paid_by" name="paid_by" class="input-xlarge">
+              <option>Katrien</option>
+              <option>Martijn</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Button -->
+        <div class="control-group">
+          <label class="control-label" for="submit"></label>
+          <div class="controls">
+            <button id="submit" name="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </div>
+
+        </fieldset>
+        </form>
         <!--form action="{{ url_for('add_bill') }}" method=post class="pure-form pure-form-aligned">
             <fieldset>
                 <div class="pure-control-group">
