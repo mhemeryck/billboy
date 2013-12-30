@@ -1,84 +1,40 @@
 {% extends "layout.html" %}
 {% block body %}
     {% if session.logged_in %}
-        <form class="form-horizontal">
-        <fieldset>
-
-        <!-- Form Name -->
-        <legend>Add</legend>
-
-        <!-- Text input-->
-        <div class="control-group">
-          <label class="control-label" for="datepicker">Date</label>
-          <div class="controls">
-            <input id="datepicker" name="datepicker" placeholder="date" class="input-xlarge" type="text">
-            <p class="help-block">yyyy-mm-dd</p>
-          </div>
-        </div>
-
-        <!-- Text input-->
-        <div class="control-group">
-          <label class="control-label" for="description">Description</label>
-          <div class="controls">
-            <input id="description" name="description" placeholder="description" class="input-xlarge" type="text">
-            
-          </div>
-        </div>
-
-        <!-- Text input-->
-        <div class="control-group">
-          <label class="control-label" for="amount">Amount</label>
-          <div class="controls">
-            <input id="amount" name="amount" placeholder="amount" class="input-xlarge" type="text">
-            
-          </div>
-        </div>
-
-        <!-- Select Basic -->
-        <div class="control-group">
-          <label class="control-label" for="paid_by">Paid by</label>
-          <div class="controls">
-            <select id="paid_by" name="paid_by" class="input-xlarge">
-              <option>Katrien</option>
-              <option>Martijn</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Button -->
-        <div class="control-group">
-          <label class="control-label" for="submit"></label>
-          <div class="controls">
-            <button id="submit" name="submit" class="btn btn-primary">Submit</button>
-          </div>
-        </div>
-
-        </fieldset>
-        </form>
-        <!--form action="{{ url_for('add_bill') }}" method=post class="pure-form pure-form-aligned">
-            <fieldset>
-                <div class="pure-control-group">
-                    <label for="date">Date</label>
-                    <input id="datepicker" name="date" type="text" placeholder="Date">
+        <form action="{{ url_for('add_bill') }}" method=post class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="datepicker">Date</label>
+                <div class="col-sm-10">
+                    <input id="datepicker" name="date" type="date" class="form-control" placeholder="yyyy-mm-dd">
                 </div>
-                <div class="pure-control-group">
-                    <label for="description">Description</label>
-                    <input id="description" name="description" type="text" placeholder="Description">
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="description">Description</label>
+                <div class="col-sm-10">
+                    <input id="description" name="description" type="text" class="form-control">
                 </div>
-                <div class="pure-control-group">
-                    <label for="amount">Amount</label>
-                    <input id="amount" name="amount" type="text" placeholder="Amount">
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="amount">Amount</label>
+                <div class="col-sm-10">
+                    <input id="amount" name="amount" type="text" class="form-control">
                 </div>
-                <div class="pure-control-group">
-                    <label for="paid_by">Paid by</label>
-                    <select id="paid_by" name="paid_by">
-        		        <option value="katrien">Katrien</option>
-        		        <option value="martijn">Martijn</option>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="paid_by">Paid by</label>
+                <div class="col-sm-10">
+                    <select id="paid_by" name="paid_by" class="form-control">
+                        <option>katrien</option>
+                        <option>martijn</option>
                     </select>
                 </div>
-                <button type="submit" value="Submit" class="pure-button pure-button-primary">Submit</button>
-            </fieldset>
-        </form-->
+            </div>
+            <div class="form-group">
+                <div class="col-sm-10">
+                    <button type="submit" value="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </form>
         {% if bills %}
             <div class="panel panel-default">
                 <table class="table">
@@ -92,10 +48,38 @@
                 </thead>
                 {% for bill in bills %}
                     <tr>
-                        <td>{{ bill.date|datetime }}</td>
-                        <td><a id="test">{{ bill.description }}</a></td>
-                        <td>{{ bill.amount }}</td>
-                        <td>{{ bill.paid_by }}</td>
+                        <td><a id="bill-date-{{ loop.index }}">{{ bill.date|datetime }}</a></td>
+                        <td><a id="bill-description-{{ loop.index}}">{{ bill.description }}</a></td>
+                        <td><a id="bill-amount-{{ loop.index}}">{{ bill.amount }}</a></td>
+                        <td><a id="bill-paid_by-{{ loop.index}}">{{ bill.paid_by }}</a></td>
+                        <script>
+                            $('#bill-date-{{ loop.index }}').editable({
+                               type: 'text',
+                               title: 'Adapt test',
+                               url: '/add'
+                           });
+                        </script>
+                        <script>
+                            $('#bill-description-{{ loop.index }}').editable({
+                               type: 'text',
+                               title: 'Adapt test',
+                               url: '/add'
+                           });
+                        </script>
+                        <script>
+                            $('#bill-amount-{{ loop.index }}').editable({
+                               type: 'text',
+                               title: 'Adapt test',
+                               url: '/add'
+                           });
+                        </script>
+                        <script>
+                            $('#bill-paid_by-{{ loop.index }}').editable({
+                               type: 'text',
+                               title: 'Adapt test',
+                               url: '/add'
+                           });
+                        </script>
                     </tr>
                 {% endfor %}
                 </table>

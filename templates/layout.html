@@ -1,6 +1,7 @@
 <!doctype html>
 <title>Bill Boy</title>
-<link type="text/css" href="{{ url_for('static', filename='style.css' )}}" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--link type="text/css" href="{{ url_for('static', filename='style.css' )}}" rel="stylesheet"-->
 
 <!-- signin: from bootstrap examples -->
 <link type=text/css href="{{ url_for('static', filename='signin.css' )}}" rel="stylesheet">
@@ -25,11 +26,6 @@
         $('#datepicker').datepicker({
             format: "yyyy-mm-dd",
             todayHighlight: true
-        });
-        $('#test').editable({
-            type: 'text',
-            title: 'Adapt test',
-            url: '/add'
         });
     });
 </script>
