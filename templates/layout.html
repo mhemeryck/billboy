@@ -1,9 +1,9 @@
 <!doctype html>
 <title>Bill Boy</title>
-<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css' )}}">
+<link type="text/css" href="{{ url_for('static', filename='style.css' )}}" rel="stylesheet">
 
 <!-- signin: from bootstrap examples -->
-<link rel=stylesheet type=text/css href="{{ url_for('static', filename='signin.css' )}}">
+<link type=text/css href="{{ url_for('static', filename='signin.css' )}}" rel="stylesheet">
 
 <!-- jquery -->
 <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
@@ -16,9 +16,9 @@
 <link href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/css/datepicker.min.css" rel="stylesheet">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/js/bootstrap-datepicker.js"></script>
 
-<!-- bootstrap table edit -->
-<link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
-<script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+<!-- bootstrap x-edit -->
+<link href="http://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
 
 <script>
     $(function() {
@@ -26,10 +26,17 @@
             format: "yyyy-mm-dd",
             todayHighlight: true
         });
+        $('#test').editable({
+            type: 'text',
+            title: 'Adapt test',
+            url: '/add'
+        });
     });
 </script>
 <div class="container">
-    <h1>Bill Boy</h1>
+    <div class="page-header">
+        <h1>billboy <small>only manages the bills</small></h1>
+    </div>
     <div class="metanav">
     {% if not session.logged_in %}
         <a href="{{ url_for('login') }}">log in</a>
