@@ -1,55 +1,52 @@
 {% extends "layout.html" %}
 {% block body %}
     {% if session.logged_in %}
-    <form action="{{ url_for('add_bill') }}" method=post class="pure-form pure-form-aligned">
-        <fieldset>
-            <div class="pure-control-group">
-                <label for="date">Date</label>
-                <input id="datepicker" name="date" type="text" placeholder="Date">
-            </div>
-            <div class="pure-control-group">
-                <label for="description">Description</label>
-                <input id="description" name="description" type="text" placeholder="Description">
-            </div>
-            <div class="pure-control-group">
-                <label for="amount">Amount</label>
-                <input id="amount" name="amount" type="text" placeholder="Amount">
-            </div>
-            <div class="pure-control-group">
-                <label for="paid_by">Paid by</label>
-                <select id="paid_by" name="paid_by">
-    		        <option value="katrien">Katrien</option>
-    		        <option value="martijn">Martijn</option>
-                </select>
-            </div>
-            <button type="submit" value="Submit" class="pure-button pure-button-primary">Submit</button>
-        </fieldset>
-    </form>
+        <form action="{{ url_for('add_bill') }}" method=post class="pure-form pure-form-aligned">
+            <fieldset>
+                <div class="pure-control-group">
+                    <label for="date">Date</label>
+                    <input id="datepicker" name="date" type="text" placeholder="Date">
+                </div>
+                <div class="pure-control-group">
+                    <label for="description">Description</label>
+                    <input id="description" name="description" type="text" placeholder="Description">
+                </div>
+                <div class="pure-control-group">
+                    <label for="amount">Amount</label>
+                    <input id="amount" name="amount" type="text" placeholder="Amount">
+                </div>
+                <div class="pure-control-group">
+                    <label for="paid_by">Paid by</label>
+                    <select id="paid_by" name="paid_by">
+        		        <option value="katrien">Katrien</option>
+        		        <option value="martijn">Martijn</option>
+                    </select>
+                </div>
+                <button type="submit" value="Submit" class="pure-button pure-button-primary">Submit</button>
+            </fieldset>
+        </form>
+        {% if bills %}
+            <table class="pure-table pure-table-horizontal">
+            <thead>
+                <tr>
+                    <td>Date</td>
+                    <td>Description</td>
+                    <td>Amount</td>
+                    <td>Paid by</td>
+                </tr>
+            </thead>
+            {% for bill in bills %}
+                <tr {{ loop.cycle('class=pure-table-odd', '') }}>
+                    <td>{{ bill.date|datetime }}</td>
+                    <td>{{ bill.description }}</td>
+                    <td>{{ bill.amount }}</td>
+                    <td>{{ bill.paid_by }}</td>
+                </tr>
+            {% endfor %}
+            </table>
+        {% else %}
+            <p><em>No entries thus far.</em></p>
+        {% endif %}
     {% endif %}
-    <table class="pure-table pure-table-horizontal">
-    <thead>
-        <tr>
-            <td>Date</td>
-            <td>Description</td>
-            <td>Amount</td>
-            <td>Paid by</td>
-        </tr>
-    </thead>
-    {% for bill in bills %}
-        <tr {{ loop.cycle('class=pure-table-odd', '') }}>
-            <td>{{ bill.date|datetime }}</td>
-            <td>{{ bill.description }}</td>
-            <td>{{ bill.amount }}</td>
-            <td>{{ bill.paid_by }}</td>
-        </tr>
-    {% else %}
-        <tr class="pure-table-odd">
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-    {% endfor %}
-    </table>
 {% endblock %}
 

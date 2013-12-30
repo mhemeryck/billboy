@@ -1,19 +1,36 @@
 <!doctype html>
 <title>Bill Boy</title>
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css' )}}">
-<!--link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/base-min.css"-->
-<link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
-<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
+<!-- signin: from bootstrap examples -->
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='signin.css' )}}">
+
+<!-- jquery -->
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+
+<!-- bootstrap -->
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
+<!-- bootstrap date picker -->
+<link href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/css/datepicker.min.css" rel="stylesheet">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/js/bootstrap-datepicker.js"></script>
+
+<!-- bootstrap table edit -->
+<link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+<script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+
 <script>
     $(function() {
-        $( "#datepicker" ).datepicker({ dateFormat: "yy-mm-dd" });
+        $('#datepicker').datepicker({
+            format: "yyyy-mm-dd",
+            todayHighlight: true
+        });
     });
 </script>
-<div class=page>
+<div class="container">
     <h1>Bill Boy</h1>
-    <div class=metanav>
+    <div class="metanav">
     {% if not session.logged_in %}
         <a href="{{ url_for('login') }}">log in</a>
     {% else %}
