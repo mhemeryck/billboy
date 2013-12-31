@@ -1,0 +1,150 @@
+<!doctype html>
+<title>billboy</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--link type="text/css" href="{{ url_for('static', filename='style.css' )}}" rel="stylesheet"-->
+
+<!-- signin: from bootstrap examples -->
+<!--link type=text/css href="{{ url_for('static', filename='signin.css' )}}" rel="stylesheet"-->
+
+<!-- jquery -->
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+
+<!-- bootstrap -->
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
+<!-- bootstrap date picker -->
+<link href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/css/datepicker.min.css" rel="stylesheet">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/js/bootstrap-datepicker.js"></script>
+
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1>billboy <small>only manages the bills</small></h1>
+        </div>
+
+        <ul class="nav nav-tabs">
+          <li class="active"><a href="#">Bills</a></li>
+          <li><a href="#">Stats</a></li>
+          <li><a href="#">Settings</a></li>
+        </ul>
+        
+        <div class="panel panel-default">
+            <div class="panel-heading">Bills</div>
+            <div class="panel-body">
+                <form action="" method="post" class="form-inline" role="form">
+                    <div class="form-group">
+                        <input id="datepicker" name="date" type="date" class="form-control" placeholder="Date">
+                    </div>
+                    <script>
+                        $(function() {
+                            $('#datepicker').datepicker({
+                                format: "yyyy-mm-dd",
+                                todayHighlight: true
+                            });
+                        });
+                    </script>
+                    <div class="form-group">
+                        <input id="description" name="description" type="text" class="form-control" placeholder="Description">
+                    </div>
+                    <div class="form-group">
+                        <input id="amount" name="amount" type="number" class="form-control" placeholder="Amount">
+                    </div>
+                    <div class="form-group">
+                        <select id="paid_by" name="paid_by" class="form-control" placeholder="Paid By">
+                            <option>katrien</option>
+                            <option>martijn</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" value="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+            
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Paid by</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id="bill-view-1">
+                        <td>2013-12-30</td>
+                        <td>Colruyt</td>
+                        <td>10.0</td>
+                        <td>katrien</td>
+                    </tr>
+                    <script>
+                        $(function() {
+                            $( "#bill-view-1" ).click(function() {
+                                var row_form = $( "#bill-edit-3" ).clone(true);
+                                alert(row_form.html());
+                                $( this ).replaceWith(row_form.html());
+                            });
+                        });
+                    </script>
+
+                    <tr id="bill-view-2">
+                        <td>2013-12-31</td>
+                        <td>Carrefour</td>
+                        <td>5</td>
+                        <td>martijn</td>
+                    </tr>
+                    <script>
+                        $(function() {
+                            $( "#bill-view-2" ).click(function() {
+                                $( this );
+                            });
+                        });
+                    </script>
+                    
+                    <tr id="bill-edit-3">
+                        <form action="" method="post" class="form-inline" role="form">
+                            <td>
+                                <div class="form-group">
+                                    <input id="datepicker" name="date" type="date" class="form-control" placeholder="Date">
+                                </div>
+                                <script>
+                                    $(function() {
+                                        $('#datepicker').datepicker({
+                                            format: "yyyy-mm-dd",
+                                            todayHighlight: true
+                                        });
+                                    });
+                                </script>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <input id="description" name="description" type="text" class="form-control" placeholder="Description">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <input id="amount" name="amount" type="number" class="form-control" placeholder="Amount">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <select id="paid_by" name="paid_by" class="form-control" placeholder="Paid By">
+                                        <option>katrien</option>
+                                        <option>martijn</option>
+                                    </select>
+                                </div>
+                            </td>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" value="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
+                    </tr>
+                       
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
