@@ -37,6 +37,8 @@ def format_datetime(value):
 
 @app.route('/')
 def show_bills():
+    if not session.get('logged_in'):
+        return redirect(url_for('login'))
     return render_template('show_bills.html', bills=Bill.query.all())
 
 
