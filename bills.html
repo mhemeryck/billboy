@@ -17,6 +17,15 @@
 <link href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/css/datepicker.min.css" rel="stylesheet">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/js/bootstrap-datepicker.js"></script>
 
+<script>
+	$(function() {
+		$( ".form-control.datepicker" ).datepicker({
+			format: "yyyy-mm-dd",
+			todayHighlight: true,
+		});
+	});
+</script>
+
 <body>
     <div class="container">
         <div class="page-header">
@@ -24,7 +33,7 @@
         </div>
 
         <ul class="nav nav-tabs">
-          <li class="active"><a href="#">Bills</a></li>
+          <li class="active"><a href="#">Bills</a	></li>
           <li><a href="#">Stats</a></li>
           <li><a href="#">Settings</a></li>
         </ul>
@@ -34,16 +43,8 @@
             <div class="panel-body">
                 <form action="" method="post" class="form-inline" role="form">
                     <div class="form-group">
-                        <input id="datepicker" name="date" type="date" class="form-control" placeholder="Date">
+                        <input id="datepicker" name="date" type="date" class="form-control datepicker" placeholder="Date">
                     </div>
-                    <script>
-                        $(function() {
-                            $('#datepicker').datepicker({
-                                format: "yyyy-mm-dd",
-                                todayHighlight: true
-                            });
-                        });
-                    </script>
                     <div class="form-group">
                         <input id="description" name="description" type="text" class="form-control" placeholder="Description">
                     </div>
@@ -69,82 +70,84 @@
                         <th>Description</th>
                         <th>Amount</th>
                         <th>Paid by</th>
+						<th>Edit</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr id="bill-view-1">
-                        <td>2013-12-30</td>
-                        <td>Colruyt</td>
-                        <td>10.0</td>
-                        <td>katrien</td>
+                        <td><div id="view-datepicker-1">2013-12-31</div></td>
+                        <td><div id="view-description-1">Carrefour</div></td>
+                        <td><div id="view-amount-1">5</div></td>
+                        <td><div id="view-paid_by-1">martijn</div></td>
+						<td>
+							<div class="form-group">
+								<button id="view-edit-1" type="button" value="edit" class="btn btn-primary">Edit</button>
+								<button id="view-delete-1" type="button" value="delete" class="btn btn-danger">Delete</button>
+							</div>
+						</td>
                     </tr>
+					
                     <script>
                         $(function() {
-                            $( "#bill-view-1" ).click(function() {
-                                var row_form = $( "#bill-edit-3" ).clone(true);
-                                alert(row_form.html());
-                                $( this ).replaceWith(row_form.html());
-                            });
-                        });
-                    </script>
-
-                    <tr id="bill-view-2">
-                        <td>2013-12-31</td>
-                        <td>Carrefour</td>
-                        <td>5</td>
-                        <td>martijn</td>
-                    </tr>
-                    <script>
-                        $(function() {
-                            $( "#bill-view-2" ).click(function() {
-                                $( this );
+                            $( "#view-edit-1" ).click(function() {
+                                $( "#bill-view-1" ).hide();
+									
+								var field_names = ["datepicker", "description", "amount", "paid_by"];
+								for (var i = 0; i < field_names.length; i++) {
+									var v = $( "#view-" + field_names[i] + "-1" ).html();
+									$( "#edit-" + field_names[i] + "-1" ).val(v);
+								}
+								
+								$( "#bill-edit-1" ).show();
                             });
                         });
                     </script>
                     
-                    <tr id="bill-edit-3">
+                    <tr id="bill-edit-1">
                         <form action="" method="post" class="form-inline" role="form">
                             <td>
                                 <div class="form-group">
-                                    <input id="datepicker" name="date" type="date" class="form-control" placeholder="Date">
-                                </div>
-                                <script>
-                                    $(function() {
-                                        $('#datepicker').datepicker({
-                                            format: "yyyy-mm-dd",
-                                            todayHighlight: true
-                                        });
-                                    });
-                                </script>
-                            </td>
-                            <td>
-                                <div class="form-group">
-                                    <input id="description" name="description" type="text" class="form-control" placeholder="Description">
+                                    <input id="edit-datepicker-1" name="date" type="text" class="form-control datepicker" placeholder="Date">
                                 </div>
                             </td>
                             <td>
                                 <div class="form-group">
-                                    <input id="amount" name="amount" type="number" class="form-control" placeholder="Amount">
+                                    <input id="edit-description-1" name="description" type="text" class="form-control" placeholder="Description">
                                 </div>
                             </td>
                             <td>
                                 <div class="form-group">
-                                    <select id="paid_by" name="paid_by" class="form-control" placeholder="Paid By">
+                                    <input id="edit-amount-1" name="amount" type="number" class="form-control" placeholder="Amount">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <select id="edit-paid_by-1" name="paid_by" class="form-control" placeholder="Paid By">
                                         <option>katrien</option>
                                         <option>martijn</option>
                                     </select>
                                 </div>
                             </td>
-                            </div>
-                            <div class="form-group">
-                                <button type="submit" value="submit" class="btn btn-primary">Submit</button>
-                            </div>
+							<td>
+								<div class="form-group">
+									<button id="edit-cancel-1" type="button" value="cancel" class="btn btn-default">Cancel</button>
+									<button id="edit-update-1" type="button" value="update" class="btn btn-primary">Update</button>
+								</div>
+							</td>
                         </form>
                     </tr>
-                       
+					
+                    <script>
+                        $(function() {
+                            $( "#bill-edit-1" ).hide();
+							$( "#edit-cancel-1" ).click( function() {
+								$( "#bill-view-1" ).show()
+								$( "#bill-edit-1" ).hide();								
+							});
+                        });
+                    </script>
                 </tbody>
             </table>
         </div>
     </div>
 </body>
-
