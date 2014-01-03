@@ -18,11 +18,36 @@
 <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/js/bootstrap-datepicker.js"></script>
 
 <script>
+	function copyFieldNames(pk) {
+
+		var fieldNames = ["datepicker", "description", "amount", "paid_by"];
+		for (var i = 0; i < fieldNames.length; i++) {
+			var v = $( "#view-" + fieldNames[i] + "-" + pk ).html();
+			$( "#edit-" + fieldNames[i] + "-" + pk ).val(v);
+		}
+	}
+
 	$(function() {
 		$( ".form-control.datepicker" ).datepicker({
 			format: "yyyy-mm-dd",
 			todayHighlight: true,
 		});
+		
+		// hide all edit by default
+		$( ".bill.edit" ).hide();
+		
+		
+		
+		$( "#view-edit-1" ).click(function() {
+			$( "#bill-view-1" ).hide();
+			$( "#bill-edit-1" ).show();
+		});
+		
+		$( "#edit-cancel-1" ).click( function() {
+			$( "#bill-view-1" ).show()
+			$( "#bill-edit-1" ).hide();								
+		});
+
 	});
 </script>
 
@@ -74,36 +99,20 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr id="bill-view-1">
+                    <tr class="bill view" pk="1">
                         <td><div id="view-datepicker-1">2013-12-31</div></td>
                         <td><div id="view-description-1">Carrefour</div></td>
                         <td><div id="view-amount-1">5</div></td>
                         <td><div id="view-paid_by-1">martijn</div></td>
 						<td>
 							<div class="form-group">
-								<button id="view-edit-1" type="button" value="edit" class="btn btn-primary">Edit</button>
+								<button id="view-edit-1" type="button" value="edit" class="btn btn-primary bill view" pk="1">Edit</button>
 								<button id="view-delete-1" type="button" value="delete" class="btn btn-danger">Delete</button>
 							</div>
 						</td>
                     </tr>
 					
-                    <script>
-                        $(function() {
-                            $( "#view-edit-1" ).click(function() {
-                                $( "#bill-view-1" ).hide();
-									
-								var field_names = ["datepicker", "description", "amount", "paid_by"];
-								for (var i = 0; i < field_names.length; i++) {
-									var v = $( "#view-" + field_names[i] + "-1" ).html();
-									$( "#edit-" + field_names[i] + "-1" ).val(v);
-								}
-								
-								$( "#bill-edit-1" ).show();
-                            });
-                        });
-                    </script>
-                    
-                    <tr id="bill-edit-1">
+                    <tr id="bill-edit-1" class="bill edit">
                         <form action="" method="post" class="form-inline" role="form">
                             <td>
                                 <div class="form-group">
@@ -137,15 +146,51 @@
                         </form>
                     </tr>
 					
-                    <script>
-                        $(function() {
-                            $( "#bill-edit-1" ).hide();
-							$( "#edit-cancel-1" ).click( function() {
-								$( "#bill-view-1" ).show()
-								$( "#bill-edit-1" ).hide();								
-							});
-                        });
-                    </script>
+					<tr id="bill-view-2" class="bill view">
+                        <td><div id="view-datepicker-2">2014-01-02</div></td>
+                        <td><div id="view-description-2">Colruyt</div></td>
+                        <td><div id="view-amount-2">20.05</div></td>
+                        <td><div id="view-paid_by-2">martijn</div></td>
+						<td>
+							<div class="form-group">
+								<button id="view-edit-2" type="button" value="edit" class="btn btn-primary">Edit</button>
+								<button id="view-delete-2" type="button" value="delete" class="btn btn-danger">Delete</button>
+							</div>
+						</td>
+                    </tr>        
+                    <tr id="bill-edit-2" class="bill edit">
+                        <form action="" method="post" class="form-inline" role="form">
+                            <td>
+                                <div class="form-group">
+                                    <input id="edit-datepicker-2" name="date" type="text" class="form-control datepicker" placeholder="Date">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <input id="edit-description-2" name="description" type="text" class="form-control" placeholder="Description">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <input id="edit-amount-2" name="amount" type="number" class="form-control" placeholder="Amount">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <select id="edit-paid_by-2" name="paid_by" class="form-control" placeholder="Paid By">
+                                        <option>katrien</option>
+                                        <option>martijn</option>
+                                    </select>
+                                </div>
+                            </td>
+							<td>
+								<div class="form-group">
+									<button id="edit-cancel-2" type="button" value="cancel" class="btn btn-default">Cancel</button>
+									<button id="edit-update-2" type="button" value="update" class="btn btn-primary">Update</button>
+								</div>
+							</td>
+                        </form>
+                    </tr>
                 </tbody>
             </table>
         </div>
