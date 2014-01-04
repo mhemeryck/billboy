@@ -1,5 +1,5 @@
 <!doctype html>
-<title>Bill Boy</title>
+<title>billboy</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!--link type="text/css" href="{{ url_for('static', filename='style.css' )}}" rel="stylesheet"-->
 
@@ -7,42 +7,97 @@
 <link type=text/css href="{{ url_for('static', filename='signin.css' )}}" rel="stylesheet">
 
 <!-- jquery -->
-<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<!--script src="http://code.jquery.com/jquery-1.10.2.min.js"></script-->
+<script src="{{ url_for('static', filename='jquery-1.10.2.min.js' )}}"></script>
 
 <!-- bootstrap -->
-<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
-<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<!--link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet"-->
+<link type="text/css" href="{{ url_for('static', filename='bootstrap.min.css' )}}" rel="stylesheet">
+<!--script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script-->
+<script src="{{ url_for('static', filename='bootstrap.min.js' )}}"></script>
 
 <!-- bootstrap date picker -->
-<link href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/css/datepicker.min.css" rel="stylesheet">
-<script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/js/bootstrap-datepicker.js"></script>
+<!--link href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/css/datepicker.min.css" rel="stylesheet"-->
+<link type="text/css" href="{{ url_for('static', filename='datepicker.css' )}}" rel="stylesheet"-->
+<!--script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/js/bootstrap-datepicker.js"></script-->
+<script src="{{ url_for('static', filename='bootstrap-datepicker.js' )}}"></script>
 
-<!-- bootstrap x-edit -->
-<link href="http://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+<!-- bootstrap form validation -->
+<!--script src="static/jqBootstrapValidation.js"></script-->
 
-<script>
-    $(function() {
-        $('#datepicker').datepicker({
-            format: "yyyy-mm-dd",
-            todayHighlight: true
-        });
-    });
+<script type="text/javascript">
+    /**
+	function copyFieldNames(pk) {
+
+		var fieldNames = ["datepicker", "description", "amount", "paid_by"];
+		for (var i = 0; i < fieldNames.length; i++) {
+			var v = $( "#view-" + fieldNames[i] + "-" + pk ).html();
+			$( "#edit-" + fieldNames[i] + "-" + pk ).val(v);
+		}
+	}
+	**/
+
+    var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+
+	$(function() {
+		$( ".form-control.datepicker" ).datepicker({
+			format: "yyyy-mm-dd",
+			todayHighlight: true,
+		});
+
+        // validation
+        // $( "input" ).jqBootstrapValidation();
+		
+		// hide all edit by default
+		$( "tr.bill.edit" ).hide();
+		
+		// submit button
+		$( "button[value=submit]" ).click( function() {
+    		var date = $( ".panel-body > div > input[name=date]" ).val()
+    		var description = $( ".panel-body > div > input[name=description]" ).val()
+    		var amount = $( ".panel-body > div > input[name=amount]" ).val()
+    		var paid_by = $( ".panel-body > div > select[name=paid_by]" ).val()
+		    //$.post
+		    alert("pushed submit" + date + description + amount + paid_by);
+		});
+		
+		// edit buttons
+		$( "button[value=edit].bill.view" ).click( function() {
+			var pk = $( this ).attr("pk");
+			// switch other edit to view
+			$( "tr[pk!=" + pk + "].bill.edit" ).hide();
+			$( "tr[pk!=" + pk + "].bill.view" ).show	();
+			// switch current view to edit
+			$( "tr[pk=" + pk + "].bill.view" ).hide();
+			$( "tr[pk=" + pk + "].bill.edit" ).show();
+		});
+		
+		// delete buttons
+		$( "button[value=delete].bill.view" ).click( function() {
+			var pk = $( this ).attr("pk");
+			alert("do delete for " + pk);
+		});
+
+		// cancel buttons
+		$( "button[value=cancel].bill.edit" ).click( function() {
+			var pk = $( this ).attr("pk");
+			// switch edit back to view
+			$( "tr[pk=" + pk + "].bill.edit" ).hide();
+			$( "tr[pk=" + pk + "].bill.view" ).show();
+		});
+		
+		// update buttons
+		$( "button[value=update].bill.edit" ).click( function() {
+			var pk = $( this ).attr("pk");
+			alert("do update for " + pk);
+		});
+
+	});
 </script>
-<div class="container">
-    <div class="page-header">
-        <h1>billboy <small>only manages the bills</small></h1>
+
+<body>
+    <div class="container">
+        {% block body %}{% endblock %}
     </div>
-    <div class="metanav">
-    {% if not session.logged_in %}
-        <a href="{{ url_for('login') }}">log in</a>
-    {% else %}
-        <a href="{{ url_for('logout') }}">log out</a>
-    {% endif %}
-    </div>
-    {% for message in get_flashed_messages() %}
-        <div class=flash>{{ message }}</div>
-    {% endfor %}
-    {% block body %}{% endblock %}
-</div>
+</body>
 

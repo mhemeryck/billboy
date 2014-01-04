@@ -1,0 +1,143 @@
+{% extends "layout.html" %}
+{% block body %}
+    <div class="page-header">
+        <h1>billboy <small>only manages the bills</small></h1>
+    </div>
+
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#">Bills</a	></li>
+      <li><a href="#">Stats</a></li>
+      <li><a href="#">Settings</a></li>
+    </ul>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Bills</div>
+        <div class="panel-body">
+            <div class="form-group col-md-2">
+                <input name="date" type="date" class="form-control datepicker" placeholder="Date">
+            </div>
+            <div class="form-group col-md-2">
+                <input name="description" type="text" class="form-control" placeholder="Description">
+            </div>
+            <div class="form-group col-md-2">
+                <input name="amount" type="number" class="form-control" placeholder="Amount">
+            </div>
+            <div class="form-group col-md-2">
+                <select name="paid_by" class="form-control" placeholder="Paid By">
+                    <option>katrien</option>
+                    <option>martijn</option>
+                </select>
+            </div>
+            <div class="form-group col-md-4">
+                <button type="submit" value="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+        
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Paid by</th>
+				    <th>Edit</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="bill view" pk="1">
+                    <td class="col-md-2">2013-12-31</td>
+                    <td class="col-md-2">Carrefour</td>
+                    <td class="col-md-2">5</td>
+                    <td class="col-md-2">martijn</td>
+				    <td class="col-md-4">
+					    <div class="form-group">
+						    <button type="button" value="edit" class="btn btn-primary bill view col-md-2" pk="1">Edit</button>
+						    <button type="button" value="delete" class="btn btn-danger bill view col-md-2" pk="1">Delete</button>
+					    </div>
+				    </td>
+                </tr>
+			
+                <tr class="bill edit" pk="1">
+                    <form action="" method="post" class="form-inline" role="form">
+                        <td class="col-md-2">
+                            <div class="form-group">
+                                <input name="date" type="text" class="form-control datepicker" placeholder="Date" value="2013-12-31">
+                            </div>
+                        </td>
+                        <td class="col-md-2">
+                            <div class="form-group">
+                                <input name="description" type="text" class="form-control" placeholder="Description" value="Carrefour">
+                            </div>
+                        </td>
+                        <td class="col-md-2">
+                            <div class="form-group">
+                                <input name="amount" type="number" class="form-control" placeholder="Amount" value="5">
+                            </div>
+                        </td>
+                        <td class="col-md-2">
+                            <div class="form-group">
+                                <select name="paid_by" class="form-control" placeholder="Paid By" value="martijn">
+                                    <option>katrien</option>
+                                    <option>martijn</option>
+                                </select>
+                            </div>
+                        </td>
+					    <td class="col-md-4">
+						    <div class="form-group">
+							    <button type="button" value="cancel" class="btn btn-default bill edit col-md-2" pk="1">Cancel</button>
+							    <button type="button" value="update" class="btn btn-primary bill edit col-md-2" pk="1">Update</button>
+						    </div>
+					    </td>
+                    </form>
+                </tr>
+			
+			    <tr class="bill view" pk="2">
+                    <td class="col-md-2">2014-01-02</td>
+                    <td class="col-md-2">Colruyt</td>
+                    <td class="col-md-2">20.05</td>
+                    <td class="col-md-2">martijn</td>
+				    <td class="col-md-4">
+					    <div class="form-group">
+						    <button type="button" value="edit" class="btn btn-primary bill view col-md-2" pk="2">Edit</button>
+						    <button type="button" value="delete" class="btn btn-danger bill view col-md-2" pk="2">Delete</button>
+					    </div>
+				    </td>
+                </tr>        
+                <tr class="bill edit" pk="2">
+                    <form action="" method="post" class="form-inline" role="form">
+                        <td class="col-md-2">
+                            <div class="form-group">
+                                <input name="date" type="text" class="form-control datepicker" placeholder="Date" value="2014-01-02">
+                            </div>
+                        </td>
+                        <td class="col-md-2">
+                            <div class="form-group">
+                                <input name="description" type="text" class="form-control" placeholder="Description" value="Colruyt">
+                            </div>
+                        </td>
+                        <td class="col-md-2">
+                            <div class="form-group">
+                                <input name="amount" type="number" class="form-control" placeholder="Amount" value="20.05">
+                            </div>
+                        </td>
+                        <td class="col-md-2">
+                            <div class="form-group">
+                                <select name="paid_by" class="form-control" placeholder="Paid By" value="martijn">
+                                    <option>katrien</option>
+                                    <option>martijn</option>
+                                </select>
+                            </div>
+                        </td>
+					    <td class="col-md-4">
+						    <div class="form-group">
+							    <button type="button" value="cancel" class="btn btn-default bill edit col-md-2" pk="2">Cancel</button>
+							    <button type="button" value="update" class="btn btn-primary bill edit col-md-2" pk="2">Update</button>
+						    </div>
+					    </td>
+                    </form>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+

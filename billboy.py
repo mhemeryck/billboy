@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask import (Flask, request, session, redirect, url_for, abort,
-                   render_template, flash)
+                   render_template, flash, jsonify)
 from flask.ext.sqlalchemy import SQLAlchemy
 
 
@@ -28,6 +28,7 @@ class Bill(db.Model):
     description = db.Column(db.String)
     amount = db.Column(db.Float)
     paid_by = db.Column(db.Enum('katrien', 'martijn'))
+    active = db.Column(db.Boolean, default=True)
 
 
 @app.template_filter('datetime')
@@ -39,7 +40,7 @@ def format_datetime(value):
 def show_bills():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
-    return render_template('show_bills.html', bills=Bill.query.all())
+    return render_template('bills.html', bills=Bill.query.all())
 
 
 @app.route('/add', methods=['POST'])
@@ -56,6 +57,26 @@ def add_bill():
     flash('New bill successfully entered')
     return redirect(url_for('show_bills'))
 
+
+@app.route('/submit', methods=['POST'])
+def submit_bill():
+    if not session.get('logged_in'):
+        abort(401)
+    bill = Bill()
+    bill.date = request.args.get('date', datetime.now())
+    bill.description = request.args.get('description', '', type=str)
+    bill.amount = request.args.get('amount', 0.0, type=float)
+    bill.paid_by = request.args.get('paid_by', 'martijn', type=str)
+    db.session.add(bill)
+    db.session.commit()
+    flash('New bill successfully entered')
+    return redirect(url_for('bills'))
+
+
+@app.route('/update', methods=['POST'])
+def update_bill():
+    if not session.get('logged_in'):
+        abort(401)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
