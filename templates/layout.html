@@ -18,7 +18,7 @@
 
 <!-- bootstrap date picker -->
 <!--link href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/css/datepicker.min.css" rel="stylesheet"-->
-<link type="text/css" href="{{ url_for('static', filename='datepicker.css' )}}" rel="stylesheet"-->
+<link type="text/css" href="{{ url_for('static', filename='datepicker.css' )}}" rel="stylesheet">
 <!--script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/js/bootstrap-datepicker.js"></script-->
 <script src="{{ url_for('static', filename='bootstrap-datepicker.js' )}}"></script>
 
@@ -53,12 +53,12 @@
 		
 		// submit button
 		$( "button[value=submit]" ).click( function() {
-    		var date = $( ".panel-body > div > input[name=date]" ).val()
-    		var description = $( ".panel-body > div > input[name=description]" ).val()
-    		var amount = $( ".panel-body > div > input[name=amount]" ).val()
-    		var paid_by = $( ".panel-body > div > select[name=paid_by]" ).val()
-		    //$.post
-		    alert("pushed submit" + date + description + amount + paid_by);
+    		$.post($SCRIPT_ROOT + '/submit', {
+    		    date: $( ".panel-body > div > input[name=date]" ).val(),
+		        description: $( ".panel-body > div > input[name=description]" ).val(),
+    	        amount: $( ".panel-body > div > input[name=amount]" ).val(),
+    		    paid_by: $( ".panel-body > div > select[name=paid_by]" ).val()
+    		});
 		});
 		
 		// edit buttons

@@ -43,8 +43,8 @@ def show_bills():
     return render_template('bills.html', bills=Bill.query.all())
 
 
-@app.route('/add', methods=['POST'])
-def add_bill():
+@app.route('/submit', methods=['POST'])
+def submit_bill():
     if not session.get('logged_in'):
         abort(401)
     bill = Bill()
@@ -56,22 +56,7 @@ def add_bill():
     db.session.commit()
     flash('New bill successfully entered')
     return redirect(url_for('show_bills'))
-
-
-@app.route('/submit', methods=['POST'])
-def submit_bill():
-    if not session.get('logged_in'):
-        abort(401)
-    bill = Bill()
-    bill.date = request.args.get('date', datetime.now())
-    bill.description = request.args.get('description', '', type=str)
-    bill.amount = request.args.get('amount', 0.0, type=float)
-    bill.paid_by = request.args.get('paid_by', 'martijn', type=str)
-    db.session.add(bill)
-    db.session.commit()
-    flash('New bill successfully entered')
-    return redirect(url_for('bills'))
-
+    
 
 @app.route('/update', methods=['POST'])
 def update_bill():

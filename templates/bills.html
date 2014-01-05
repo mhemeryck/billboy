@@ -33,6 +33,7 @@
             </div>
         </div>
         
+        {% if bills %}
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -44,7 +45,22 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="bill view" pk="1">
+                {% for bill in bills %}
+                <tr class="bill view" pk="{{ bill.id }}">
+                    <td class="col-md-2">{{ bill.date|datetime }}</td>
+                    <td class="col-md-2">{{ bill.description }}</td>
+                    <td class="col-md-2">{{ bill.amount }}</td>
+                    <td class="col-md-2">{{ bill.paid_by }}</td>
+				    <td class="col-md-4">
+					    <div class="form-group">
+						    <button type="button" value="edit" class="btn btn-primary bill view col-md-2" pk="{{ bill.id }}">Edit</button>
+						    <button type="button" value="delete" class="btn btn-danger bill view col-md-2" pk="{{ bill.id }}">Delete</button>
+					    </div>
+				    </td>
+                </tr>
+                
+                {% endfor %}
+                <!--tr class="bill view" pk="1">
                     <td class="col-md-2">2013-12-31</td>
                     <td class="col-md-2">Carrefour</td>
                     <td class="col-md-2">5</td>
@@ -135,9 +151,10 @@
 						    </div>
 					    </td>
                     </form>
-                </tr>
+                </tr-->
             </tbody>
         </table>
+        {% endif %}
     </div>
 {% endblock %}
 
