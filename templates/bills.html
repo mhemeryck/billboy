@@ -13,9 +13,9 @@
     <div class="panel panel-default">
         <div class="panel-heading">Bills</div>
         <div class="panel-body">
-            <form action="{{ url_for('submit_bill') }}" method="post">
+            <form action="{{ url_for('submit_bill') }}" method="post" role="form">
                 <div class="form-group col-md-2">
-                    <input name="date" type="date" class="form-control datepicker" placeholder="Date">
+                    <input name="date" type="text" class="form-control datepicker" placeholder="Date">
                 </div>
                 <div class="form-group col-md-2">
                     <input name="description" type="text" class="form-control" placeholder="Description">
@@ -24,7 +24,7 @@
                     <input name="amount" type="number" class="form-control" placeholder="Amount">
                 </div>
                 <div class="form-group col-md-2">
-                    <select name="paid_by" class="form-control" placeholder="Paid By">
+                    <select name="paid_by" class="form-control">
                         <option>katrien</option>
                         <option>martijn</option>
                     </select>
@@ -49,23 +49,23 @@
                 </thead>
                 <tbody>
                     {% for bill in bills %}
-                    <tr class="bill view" pk="{{ bill.id }}">
+                    <tr class="view" id="bill-view[{{ bill.id }}]">
                         <td class="col-md-2">{{ bill.date|datetime }}</td>
                         <td class="col-md-2">{{ bill.description }}</td>
                         <td class="col-md-2">{{ bill.amount }}</td>
                         <td class="col-md-2">{{ bill.paid_by }}</td>
 			            <td class="col-md-4">
 				            <div class="form-group">
-					            <button type="button" name="btn" value="edit" class="btn btn-primary bill view col-md-2" pk="{{ bill.id }}">Edit</button>
-					            <button type="submit" name="btn" value="delete[{{ bill.id }}]" class="btn btn-danger bill view col-md-2" pk="{{ bill.id }}">Delete</button>
+					            <button type="button" name="btn" value="edit[{{ bill.id }}]" class="btn btn-primary bill view col-md-2">Edit</button>
+					            <button type="submit" name="btn" value="delete[{{ bill.id }}]" class="btn btn-danger bill view col-md-2">Delete</button>
 				            </div>
 			            </td>
                     </tr>
                 
-                    <tr class="bill edit" pk="{{ bill.id }}">
+                    <tr class="edit" id="bill-edit[{{ bill.id }}]">
                         <td class="col-md-2">
                             <div class="form-group">
-                                <input name="date[{{ bill.id }}]" type="text" class="form-control datepicker" placeholder="Date" value="{{ bill.date|datetime }}">
+                                <input name="date[{{ bill.id }}]" type="text" class="form-control datepicker" value="{{ bill.date|datetime }}">
                             </div>
                         </td>
                         <td class="col-md-2">
@@ -80,7 +80,7 @@
                         </td>
                         <td class="col-md-2">
                             <div class="form-group">
-                                <select name="paid_by[{{ bill.id }}]" class="form-control" placeholder="Paid By" value="{{ bill.paid_by }}">
+                                <select name="paid_by[{{ bill.id }}]" class="form-control">
                                     <option>katrien</option>
                                     <option>martijn</option>
                                 </select>
@@ -88,8 +88,8 @@
                         </td>
 				        <td class="col-md-4">
 					        <div class="form-group">
-						        <button type="button" name="btn" value="cancel" class="btn btn-default bill edit col-md-2" pk="{{ bill.id }}">Cancel</button>
-						        <button type="submit" name="btn" value="update[{{ bill.id }}]" class="btn btn-primary bill edit col-md-2" pk="{{ bill.id }}">Update</button>
+						        <button type="button" name="btn" value="cancel[{{ bill.id }}]" class="btn btn-default bill edit col-md-2">Cancel</button>
+						        <button type="submit" name="btn" value="update[{{ bill.id }}]" class="btn btn-primary bill edit col-md-2">Update</button>
 					        </div>
 				        </td>
                     </tr>
