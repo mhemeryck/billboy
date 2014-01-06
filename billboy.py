@@ -1,4 +1,5 @@
 from datetime import datetime
+import re
 from flask import (Flask, request, session, redirect, url_for, abort,
                    render_template, flash, jsonify)
 from flask.ext.sqlalchemy import SQLAlchemy
@@ -40,7 +41,7 @@ def format_datetime(value):
 def show_bills():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
-    return render_template('bills.html', bills=Bill.query.all())
+    return render_template('bills.html', bills=Bill.query.filter(Bill.active).all())
 
 
 @app.route('/submit', methods=['POST'])
@@ -58,10 +59,26 @@ def submit_bill():
     return redirect(url_for('show_bills'))
     
 
-@app.route('/update', methods=['POST'])
-def update_bill():
+@app.route('/edit', methods=['POST'])
+def edit_bill():
     if not session.get('logged_in'):
         abort(401)
+    pattern = re.compile('(?P<function>(delete|update))\[(?P<pk>(\d+))\]')
+    match = pattern.match(request.form['btn'])
+    if match is not None:
+        bill_id = match.group('pk')
+        bill = Bill.query.filter_by(id=bill_id).first()
+        if match.group('function') == 'delete':
+            bill.active = False
+        elif match.group('function') == 'update':
+            datestr = request.form['date[{}]'.format(bill_id)]
+            bill.date = datetime.strptime(datestr, '%Y-%m-%d')
+            bill.description = request.form['description[{}]'.format(bill_id)]
+            bill.amount = request.form['amount[{}]'.format(bill_id)]
+            bill.paid_by = request.form['paid_by[{}]'.format(bill_id)]
+        db.session.add(bill)
+        db.session.commit()
+    return redirect(url_for('show_bills'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
