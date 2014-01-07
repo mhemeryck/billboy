@@ -58,7 +58,7 @@ def submit_bill():
     db.session.commit()
     flash('New bill successfully entered', 'success')
     return redirect(url_for('show_bills'))
-    
+
 
 @app.route('/edit', methods=['POST'])
 def edit_bill():
@@ -83,6 +83,7 @@ def edit_bill():
         flash('Successfully updated bill', 'success')
     return redirect(url_for('show_bills'))
 
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -105,5 +106,4 @@ def logout():
 
 
 if __name__ == '__main__':
-    db.create_all()
     app.run()
