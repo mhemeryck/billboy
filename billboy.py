@@ -29,7 +29,7 @@ class Bill(db.Model):
     date = db.Column(db.DateTime, default=datetime.now())
     description = db.Column(db.String)
     amount = db.Column(db.Float)
-    paid_by = db.Column(db.Enum('katrien', 'martijn'))
+    paid_by = db.Column(db.String)
     active = db.Column(db.Boolean, default=True)
 
 
