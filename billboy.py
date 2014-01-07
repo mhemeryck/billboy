@@ -55,7 +55,7 @@ def submit_bill():
     bill.paid_by = request.form['paid_by']
     db.session.add(bill)
     db.session.commit()
-    flash('New bill successfully entered')
+    flash('New bill successfully entered', 'success')
     return redirect(url_for('show_bills'))
     
 
@@ -70,6 +70,7 @@ def edit_bill():
         bill = Bill.query.filter_by(id=bill_id).first()
         if match.group('function') == 'delete':
             bill.active = False
+            flash('Successfully removed bill', 'success')
         elif match.group('function') == 'update':
             datestr = request.form['date[{}]'.format(bill_id)]
             bill.date = datetime.strptime(datestr, '%Y-%m-%d')
@@ -78,27 +79,27 @@ def edit_bill():
             bill.paid_by = request.form['paid_by[{}]'.format(bill_id)]
         db.session.add(bill)
         db.session.commit()
+        flash('Successfully updated bill', 'success')
     return redirect(url_for('show_bills'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    error = None
     if request.method == 'POST':
         if request.form['username'] != app.config['USERNAME']:
-            error = 'Invalid username'
+            flash('Invalid username', 'danger')
         elif request.form['password'] != app.config['PASSWORD']:
-            error = 'Invalid password'
+            flash('Invalid password', 'danger')
         else:
             session['logged_in'] = True
-            flash('You were logged in')
+            flash('You were logged in', 'success')
             return redirect(url_for('show_bills'))
-    return render_template('login.html', error=error)
+    return render_template('login.html')
 
 
 @app.route('/logout')
 def logout():
     session.pop('logged_in', None)
-    flash('You were logged out')
+    flash('You were logged out', 'success')
     return redirect(url_for('show_bills'))
 
 
