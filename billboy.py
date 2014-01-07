@@ -10,7 +10,7 @@ DEBUG = False
 SECRET_KEY = 'development key'
 USERNAME = 'admin'
 PASSWORD = 'default'
-SQLALCHEMY_DATABASE_URI = 'sqlite:///' + DATABASE
+SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
 
 
 app = Flask(__name__)
