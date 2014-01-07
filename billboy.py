@@ -1,4 +1,5 @@
 from datetime import datetime
+import re
 from flask import (Flask, request, session, redirect, url_for, abort,
                    render_template, flash)
 from flask.ext.sqlalchemy import SQLAlchemy
@@ -28,6 +29,7 @@ class Bill(db.Model):
     description = db.Column(db.String)
     amount = db.Column(db.Float)
     paid_by = db.Column(db.Enum('katrien', 'martijn'))
+    active = db.Column(db.Boolean, default=True)
 
 
 @app.template_filter('datetime')
@@ -39,11 +41,11 @@ def format_datetime(value):
 def show_bills():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
-    return render_template('show_bills.html', bills=Bill.query.all())
+    return render_template('bills.html', bills=Bill.query.filter(Bill.active).all())
 
 
-@app.route('/add', methods=['POST'])
-def add_bill():
+@app.route('/submit', methods=['POST'])
+def submit_bill():
     if not session.get('logged_in'):
         abort(401)
     bill = Bill()
@@ -55,7 +57,28 @@ def add_bill():
     db.session.commit()
     flash('New bill successfully entered')
     return redirect(url_for('show_bills'))
+    
 
+@app.route('/edit', methods=['POST'])
+def edit_bill():
+    if not session.get('logged_in'):
+        abort(401)
+    pattern = re.compile('(?P<function>(delete|update))\[(?P<pk>(\d+))\]')
+    match = pattern.match(request.form['btn'])
+    if match is not None:
+        bill_id = match.group('pk')
+        bill = Bill.query.filter_by(id=bill_id).first()
+        if match.group('function') == 'delete':
+            bill.active = False
+        elif match.group('function') == 'update':
+            datestr = request.form['date[{}]'.format(bill_id)]
+            bill.date = datetime.strptime(datestr, '%Y-%m-%d')
+            bill.description = request.form['description[{}]'.format(bill_id)]
+            bill.amount = request.form['amount[{}]'.format(bill_id)]
+            bill.paid_by = request.form['paid_by[{}]'.format(bill_id)]
+        db.session.add(bill)
+        db.session.commit()
+    return redirect(url_for('show_bills'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

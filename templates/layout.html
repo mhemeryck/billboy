@@ -1,5 +1,6 @@
 <!doctype html>
-<title>Bill Boy</title>
+<title>billboy</title>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!--link type="text/css" href="{{ url_for('static', filename='style.css' )}}" rel="stylesheet"-->
 
@@ -7,42 +8,33 @@
 <link type=text/css href="{{ url_for('static', filename='signin.css' )}}" rel="stylesheet">
 
 <!-- jquery -->
-<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<!--script src="http://code.jquery.com/jquery-1.10.2.min.js"></script-->
+<script src="{{ url_for('static', filename='jquery-1.10.2.min.js' )}}"></script>
 
 <!-- bootstrap -->
-<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
-<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+<!--link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet"-->
+<link type="text/css" href="{{ url_for('static', filename='bootstrap.min.css' )}}" rel="stylesheet">
+<!--script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script-->
+<script src="{{ url_for('static', filename='bootstrap.min.js' )}}"></script>
 
 <!-- bootstrap date picker -->
-<link href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/css/datepicker.min.css" rel="stylesheet">
-<script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/js/bootstrap-datepicker.js"></script>
+<!--link href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/css/datepicker.min.css" rel="stylesheet"-->
+<link type="text/css" href="{{ url_for('static', filename='datepicker.css' )}}" rel="stylesheet">
+<!--script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/js/bootstrap-datepicker.js"></script-->
+<script src="{{ url_for('static', filename='bootstrap-datepicker.js' )}}"></script>
 
-<!-- bootstrap x-edit -->
-<link href="http://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+<!-- bootstrap form validation -->
+<!--script src="static/jqBootstrapValidation.js"></script-->
 
-<script>
-    $(function() {
-        $('#datepicker').datepicker({
-            format: "yyyy-mm-dd",
-            todayHighlight: true
-        });
-    });
+<script type="text/javascript">
+    var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 </script>
-<div class="container">
-    <div class="page-header">
-        <h1>billboy <small>only manages the bills</small></h1>
+
+<script src="{{ url_for('static', filename='billboy.js' )}}"></script>
+
+<body>
+    <div class="container">
+        {% block body %}{% endblock %}
     </div>
-    <div class="metanav">
-    {% if not session.logged_in %}
-        <a href="{{ url_for('login') }}">log in</a>
-    {% else %}
-        <a href="{{ url_for('logout') }}">log out</a>
-    {% endif %}
-    </div>
-    {% for message in get_flashed_messages() %}
-        <div class=flash>{{ message }}</div>
-    {% endfor %}
-    {% block body %}{% endblock %}
-</div>
+</body>
 
