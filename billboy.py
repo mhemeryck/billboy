@@ -6,7 +6,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 
 
 DATABASE = '/tmp/billboy.db'
-DEBUG = True
+DEBUG = False
 SECRET_KEY = 'development key'
 USERNAME = 'admin'
 PASSWORD = 'default'
@@ -105,4 +105,4 @@ def logout():
 
 if __name__ == '__main__':
     db.create_all()
-    app.run(host='0.0.0.0')
+    app.run()
