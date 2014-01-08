@@ -1,37 +1,9 @@
 from datetime import datetime
-import os
 import re
-from flask import (Flask, request, session, redirect, url_for, abort,
-                   render_template, flash)
-from flask.ext.sqlalchemy import SQLAlchemy
-
-
-#DATABASE = '/tmp/billboy.db'
-DEBUG = False
-SECRET_KEY = 'development key'
-USERNAME = 'admin'
-PASSWORD = 'default'
-SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
-#SQLALCHEMY_DATABASE_URI = 'sqlite:///' + DATABASE
-
-
-app = Flask(__name__)
-app.config.from_object(__name__)
-db = SQLAlchemy(app)
-
-
-class Bill(db.Model):
-
-    """Shopping bill"""
-
-    __tablename__ = 'bills'
-
-    id = db.Column(db.Integer, primary_key=True)
-    date = db.Column(db.DateTime, default=datetime.now())
-    description = db.Column(db.String)
-    amount = db.Column(db.Float)
-    paid_by = db.Column(db.String)
-    active = db.Column(db.Boolean, default=True)
+from flask import (request, session, redirect, url_for, abort, render_template,
+                   flash)
+from app import app, db
+from app.models import Bill
 
 
 def calculate_balances():
@@ -125,7 +97,3 @@ def logout():
     session.pop('logged_in', None)
     flash('You were logged out', 'success')
     return redirect(url_for('show_bills'))
-
-
-if __name__ == '__main__':
-    app.run()
