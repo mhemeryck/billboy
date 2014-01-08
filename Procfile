@@ -1,1 +1,1 @@
-web: gunicorn billboy:app 
+web: gunicorn run
