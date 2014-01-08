@@ -92,6 +92,7 @@
         </form>
         {% endif %}
     </div>
+    {% if bills %}
     <div class="panel panel-default">
         <div class="panel-heading">Stats</div>
         <table class="table table-hover">
@@ -103,15 +104,32 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Katrien</td>
-                    <td></td>
+                    <td>katrien</td>
+                    <td>
+                        {% if balances.katrien < 0 %}
+                        <span class="label label-danger">
+                        {% else %}
+                        <span class="label label-success">
+                        {% endif %}
+                        {{ balances.katrien }}
+                        </span>
+                    </td>
                 </tr>
                 <tr>
-                    <td>Martijn</td>
-                    <td></td>
+                    <td>martijn</td>
+                    <td>
+                        {% if balances.martijn < 0 %}
+                        <span class="label label-danger">
+                        {% else %}
+                        <span class="label label-success">
+                        {% endif %}
+                        {{ balances.martijn }}
+                        </span>
+                    </td>
                 </tr>
             </tbody>
         </table>
     </div>
+    {% endif %}
 {% endblock %}
 
