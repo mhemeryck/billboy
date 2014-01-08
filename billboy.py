@@ -7,11 +7,12 @@ from flask.ext.sqlalchemy import SQLAlchemy
 
 
 DATABASE = '/tmp/billboy.db'
-DEBUG = False
+DEBUG = True
 SECRET_KEY = 'development key'
 USERNAME = 'admin'
 PASSWORD = 'default'
-SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+#SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+SQLALCHEMY_DATABASE_URI = 'sqlite:///' + DATABASE
 
 
 app = Flask(__name__)
@@ -33,6 +34,17 @@ class Bill(db.Model):
     active = db.Column(db.Boolean, default=True)
 
 
+def calculate_balances():
+    """calculate current balances"""
+    
+    query = Bill.query.filter(Bill.active)
+    query_katrien = query.filter_by(paid_by='katrien')
+    query_martijn = query.filter_by(paid_by='martijn')
+    amount_katrien = sum([bill.amount for bill in query_katrien])
+    amount_martijn = sum([bill.amount for bill in query_martijn])
+    mean = float(amount_martijn + amount_katrien) / 2
+   
+
 @app.template_filter('datetime')
 def format_datetime(value):
     return value.strftime('%Y-%m-%d')
@@ -42,7 +54,7 @@ def format_datetime(value):
 def show_bills():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
-    return render_template('bills.html', bills=Bill.query.filter(Bill.active).all())
+    return render_template('bills.html', bills=Bill.query.filter(Bill.active))
 
 
 @app.route('/submit', methods=['POST'])
