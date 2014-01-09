@@ -3,13 +3,15 @@ from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 
 
-#DATABASE = '/tmp/billboy.db'
 DEBUG = False
 SECRET_KEY = 'development key'
 USERNAME = 'admin'
 PASSWORD = 'default'
-SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
-#SQLALCHEMY_DATABASE_URI = 'sqlite:///' + DATABASE
+
+if DEBUG:
+    SQLALCHEMY_DATABASE_URI = 'sqlite:////tmp/billboy.db'
+else:
+    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
 
 
 app = Flask(__name__)
