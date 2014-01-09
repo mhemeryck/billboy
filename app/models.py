@@ -2,6 +2,16 @@ from datetime import datetime
 from app import db
 
 
+class User(db.model):
+    
+    """users to use the billboy app"""
+    
+    __tablename__ = 'users'
+    
+    username = db.Column(db.String)
+    pasword = db.Column(db.String(40))
+    
+
 class Bill(db.Model):
 
     """Shopping bill"""
