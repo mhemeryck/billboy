@@ -2,15 +2,20 @@ from datetime import datetime
 from app import db
 
 
-class User(db.model):
+class User(db.Model):
     
     """users to use the billboy app"""
     
     __tablename__ = 'users'
-    
+
+    id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String)
-    pasword = db.Column(db.String(40))
+    password = db.Column(db.String(40))
     
+    def __init__(self, username, password):
+        self.username = username
+        self.password = password
+
 
 class Bill(db.Model):
 
