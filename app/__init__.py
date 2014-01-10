@@ -3,10 +3,8 @@ from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 
 
-DEBUG = True
+DEBUG = False
 SECRET_KEY = 'development key'
-USERNAME = 'admin'
-PASSWORD = 'default'
 
 if DEBUG:
     SQLALCHEMY_DATABASE_URI = 'sqlite:////tmp/billboy.db'
