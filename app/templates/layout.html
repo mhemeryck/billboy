@@ -8,23 +8,17 @@
 <link type=text/css href="{{ url_for('static', filename='signin.css' )}}" rel="stylesheet">
 
 <!-- jquery -->
-<!--script src="http://code.jquery.com/jquery-1.10.2.min.js"></script-->
-<script src="{{ url_for('static', filename='jquery-1.10.2.min.js' )}}"></script>
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 
 <!-- bootstrap -->
-<!--link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet"-->
-<link type="text/css" href="{{ url_for('static', filename='bootstrap.min.css' )}}" rel="stylesheet">
-<!--script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script-->
-<script src="{{ url_for('static', filename='bootstrap.min.js' )}}"></script>
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 
 <!-- bootstrap date picker -->
-<!--link href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/css/datepicker.min.css" rel="stylesheet"-->
-<link type="text/css" href="{{ url_for('static', filename='datepicker.css' )}}" rel="stylesheet">
-<!--script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/js/bootstrap-datepicker.js"></script-->
-<script src="{{ url_for('static', filename='bootstrap-datepicker.js' )}}"></script>
+<link href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/css/datepicker.min.css" rel="stylesheet">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.2.0/js/bootstrap-datepicker.js"></script>
 
 <!-- bootstrap form validation -->
-<!--script src="static/jqBootstrapValidation.js"></script-->
 
 <script type="text/javascript">
     var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
