@@ -1,9 +1,18 @@
 from datetime import datetime
+import hashlib
 import re
 from flask import (request, session, redirect, url_for, abort, render_template,
                    flash)
 from app import app, db
-from app.models import Bill
+from app.models import Bill, User
+
+
+def sha1(password):
+    """calculate sha1 hash from password"""
+    
+    m = hashlib.sha1()
+    m.update(password)
+    return m.hexdigest()
 
 
 def calculate_balances():
@@ -81,14 +90,17 @@ def edit_bill():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        if request.form['username'] != app.config['USERNAME']:
+        query = User.query.filter_by(username=request.form['username'])
+        if not query.count():
             flash('Invalid username', 'danger')
-        elif request.form['password'] != app.config['PASSWORD']:
-            flash('Invalid password', 'danger')
         else:
-            session['logged_in'] = True
-            flash('You were logged in', 'success')
-            return redirect(url_for('show_bills'))
+            user = query.first()
+            if not user.password == sha1(request.form['password']):
+                flash('Invalid password', 'danger')
+            else:
+                session['logged_in'] = True
+                flash('You were logged in', 'success')
+                return redirect(url_for('show_bills'))
     return render_template('login.html')
 
 
