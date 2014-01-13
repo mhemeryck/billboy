@@ -4,6 +4,12 @@ $(function() {
 		todayHighlight: true,
 	});
 	
+	$( ".form-control.monthpicker" ).datepicker({
+		format: "yyyy-mm",
+		todayHighlight: true,
+		minViewMode: 1
+	});
+	
 	// hide all edit by default
 	$( "tr.edit" ).hide();
 	
