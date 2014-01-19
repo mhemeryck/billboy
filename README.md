@@ -18,6 +18,7 @@ Small `flask` project to manage bills.
   1. ~~user handling: add default users~~
   1. ~~code layout: split up app~~
   1. ~~stats on same page~~
+  1. ~~button for selecting months~~
   1. navbar
   1. logout
   1. button for settling bills
