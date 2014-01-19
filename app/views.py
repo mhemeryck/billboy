@@ -19,7 +19,6 @@ def calculate_balances(year, month):
     """calculate current balances"""
 
     query = Bill.query.filter(Bill.active)
-    
     names = ['katrien', 'martijn']
     amounts = {}
     for name in names:
@@ -39,6 +38,7 @@ def calculate_balances(year, month):
 def format_datetime(value):
     return value.strftime('%Y-%m-%d')
 
+
 @app.route('/<int:year>-<int:month>')
 @app.route('/', defaults={'year': datetime.now().year,
                           'month': datetime.now().month})
@@ -52,6 +52,14 @@ def show_bills(year, month):
             bills.append(bill)
     balances = calculate_balances(year, month)
     return render_template('bills.html', bills=bills, balances=balances)
+
+
+@app.route('/select_month', methods=['POST'])
+def select_month():
+    if not session.get('logged_in'):
+        abort(401)
+    year, month = request.form['month'].split('-')
+    return redirect(url_for('show_bills', year=year, month=month))
 
 
 @app.route('/submit', methods=['POST'])
