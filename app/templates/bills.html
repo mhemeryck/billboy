@@ -95,40 +95,50 @@
     {% if bills %}
     <div class="panel panel-default">
         <div class="panel-heading">Stats</div>
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Paid By</th>
-                    <th>Balance</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>katrien</td>
-                    <td>
-                        {% if balances.katrien < 0 %}
-                        <span class="label label-danger">
-                        {% else %}
-                        <span class="label label-success">
-                        {% endif %}
-                        {{ balances.katrien }}
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>martijn</td>
-                    <td>
-                        {% if balances.martijn < 0 %}
-                        <span class="label label-danger">
-                        {% else %}
-                        <span class="label label-success">
-                        {% endif %}
-                        {{ balances.martijn }}
-                        </span>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="panel-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Paid By</th>
+                        <th>Balance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>katrien</td>
+                        <td>
+                            {% if balances.katrien < 0 %}
+                            <span class="label label-danger">
+                            {% else %}
+                            <span class="label label-success">
+                            {% endif %}
+                            {{ balances.katrien }}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>martijn</td>
+                        <td>
+                            {% if balances.martijn < 0 %}
+                            <span class="label label-danger">
+                            {% else %}
+                            <span class="label label-success">
+                            {% endif %}
+                            {{ balances.martijn }}
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <form action="{{ url_for('select_month') }}" method="post" role="form">
+                <div class="form-group col-md-2">
+                    <input name="month" type="text" class="form-control monthpicker" placeholder="Month">
+                </div>
+                <div class="form-group col-md-2">
+                    <button type="submit" name="btn" value="submit" class="btn btn-primary">Select</button>
+                </div>
+            </form>
+        </div>
     </div>
     {% endif %}
 {% endblock %}

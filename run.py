@@ -1,5 +1,7 @@
 import sys
+
 from app import app, db, init_users
+
 
 def main():
     db.create_all()

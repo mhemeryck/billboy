@@ -2,6 +2,14 @@ $(function() {
 	$( ".form-control.datepicker" ).datepicker({
 		format: "yyyy-mm-dd",
 		todayHighlight: true,
+		autoclose: true
+	});
+	
+	$( ".form-control.monthpicker" ).datepicker({
+		format: "yyyy-mm",
+		todayHighlight: true,
+		autoclose: true,
+		minViewMode: 1
 	});
 	
 	// hide all edit by default

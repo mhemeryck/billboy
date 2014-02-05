@@ -1,8 +1,10 @@
 from datetime import datetime
 import hashlib
 import re
+
 from flask import (request, session, redirect, url_for, abort, render_template,
                    flash)
+
 from app import app, db
 from app.models import Bill, User
 
@@ -15,22 +17,22 @@ def sha1(password):
     return m.hexdigest()
 
 
-def calculate_balances():
+def calculate_balances(year, month):
     """calculate current balances"""
 
     query = Bill.query.filter(Bill.active)
-
-    query_katrien = query.filter_by(paid_by='katrien')
-    query_martijn = query.filter_by(paid_by='martijn')
-
-    amount_katrien = sum([bill.amount for bill in query_katrien])
-    amount_martijn = sum([bill.amount for bill in query_martijn])
-
-    mean = float(amount_martijn + amount_katrien) / 2
+    names = ['katrien', 'martijn']
+    amounts = {}
+    for name in names:
+        amounts[name] = 0
+        for bill in query.filter_by(paid_by=name):
+            if bill.date.month == month and bill.date.year == year:
+                amounts[name] += bill.amount
+    mean = sum([float(amounts[name]) for name in names]) / len(names)
 
     balances = {}
-    balances['martijn'] = amount_martijn - mean
-    balances['katrien'] = amount_katrien - mean
+    for name in names:
+        balances[name] = amounts[name] - mean
     return balances
 
 
@@ -39,13 +41,27 @@ def format_datetime(value):
     return value.strftime('%Y-%m-%d')
 
 
-@app.route('/')
-def show_bills():
+@app.route('/<int:year>-<int:month>')
+@app.route('/', defaults={'year': datetime.now().year,
+                          'month': datetime.now().month})
+def show_bills(year, month):
     if not session.get('logged_in'):
         return redirect(url_for('login'))
-    bills = Bill.query.filter(Bill.active).all()
-    balances = calculate_balances()
+    query = Bill.query.filter(Bill.active)
+    bills = []
+    for bill in query:
+        if bill.date.month == month and bill.date.year == year:
+            bills.append(bill)
+    balances = calculate_balances(year, month)
     return render_template('bills.html', bills=bills, balances=balances)
+
+
+@app.route('/select_month', methods=['POST'])
+def select_month():
+    if not session.get('logged_in'):
+        abort(401)
+    year, month = request.form['month'].split('-')
+    return redirect(url_for('show_bills', year=year, month=month))
 
 
 @app.route('/submit', methods=['POST'])
