@@ -1,8 +1,10 @@
 from datetime import datetime
 import hashlib
 import re
+
 from flask import (request, session, redirect, url_for, abort, render_template,
                    flash)
+
 from app import app, db
 from app.models import Bill, User
 
