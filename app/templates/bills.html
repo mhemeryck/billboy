@@ -92,10 +92,10 @@
         </form>
         {% endif %}
     </div>
-    {% if bills %}
     <div class="panel panel-default">
         <div class="panel-heading">Stats</div>
         <div class="panel-body">
+            {% if bills %}
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -130,6 +130,7 @@
                     </tr>
                 </tbody>
             </table>
+            {% endif %}
             <form action="{{ url_for('select_month') }}" method="post" role="form">
                 <div class="form-group col-md-2">
                     <input name="month" type="text" class="form-control monthpicker" placeholder="Month">
@@ -140,6 +141,5 @@
             </form>
         </div>
     </div>
-    {% endif %}
 {% endblock %}
 
