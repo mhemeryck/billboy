@@ -11,7 +11,7 @@ from app.models import Bill, User
 
 def sha1(password):
     """calculate sha1 hash from password"""
-    
+
     m = hashlib.sha1()
     m.update(password)
     return m.hexdigest()

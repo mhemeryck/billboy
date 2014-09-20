@@ -4,7 +4,7 @@ from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 
 
-DEBUG = False
+DEBUG = True
 SECRET_KEY = 'development key'
 
 if DEBUG:
@@ -12,13 +12,13 @@ if DEBUG:
 else:
     SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
 
-
 app = Flask(__name__)
 app.config.from_object(__name__)
 db = SQLAlchemy(app)
 
 from app import models, views
 from app.models import User
+
 
 def init_users():
     """initialize users in db"""
