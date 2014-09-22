@@ -24,5 +24,6 @@ setup(
     packages=['app'],
     description='billboy',
     long_description=readme(),
-    install_requires=requirements()
+    install_requires=requirements(),
+    include_package_data=True
 )
